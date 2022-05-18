@@ -1,0 +1,15 @@
+{
+  "name": "envibot",
+  "version": "0.0.1",
+  "description": "К черту описание, приложение для сервера E:\\environment\\",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Dmitry Loginov (DemLoveSky)",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.7.0"
+  }
+}
