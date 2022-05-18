@@ -2,7 +2,7 @@
   "name": "envibot",
   "version": "0.0.1",
   "description": "К черту описание, приложение для сервера E:\\environment\\",
-  "main": "start.js",
+  "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
