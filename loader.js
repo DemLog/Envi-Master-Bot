@@ -9,7 +9,7 @@ module.exports = (client) => {
 
             if (pull.name) {
                 client.commands.set(pull.name, pull);
-                console.log(`[${dir.toUpperCase()}] Загружен ${file}`);
+                console.log(`[${dir.toUpperCase()}] Загружен ${pull.name}`);
             } else return;
 
         }
