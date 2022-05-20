@@ -18,7 +18,9 @@ async function areaRole(client, msg, args) {
     };
 
     const msgBot = await msg.reply({
-        content: "И ради этого ты меня беспокоил? Ты просто хочешь выпендрится тем, чтобы все знали где ты живешь?" + " Чел, успокойся, всем плевать! Ну раз ты настаиваешь," + " то выбери свой район в списке и быть может я тебя впишу в отдельную касту людей",
+        content: "И ради этого ты меня беспокоил? Ты просто хочешь выпендрится тем, чтобы все знали где ты живешь?"
+            + " Чел, успокойся, всем плевать! Ну раз ты настаиваешь,"
+            + " то выбери свой район в списке и быть может я тебя впишу в отдельную касту людей",
         components: [{
             type: "ACTION_ROW", components: [selectMenu]
         }]
@@ -37,12 +39,14 @@ async function areaRole(client, msg, args) {
             if (overlap) {
                 overlap.map(role => member.roles.remove(role)) // удаление ролей у пользователя
             }
-            await member.roles.add(role);
+            member.roles.add(role).then().catch(); // переделаю позже
 
             Interaction.update({
-                content: `Это кринж, чел. Чтобы адекватные люди не контактировали с тобой, я дал тебе роль ${role.name}`,
+                content: `Это кринж, чел. Чтобы адекватные люди не контактировали с тобой, я дал тебе роль **${role.name}**`,
                 components: []
             })
+
+            client.userLogger.info(`[AREAROLE] ${member.user.username} поменял район на ${role.name}`)
         }
     });
 }
