@@ -1,5 +1,5 @@
 async function test(client, msg, args) {
-    msg.channel.send('Тестовое сообщение!');
+    msg.delete({ timeout: 0 })
 }
 
 module.exports = {
