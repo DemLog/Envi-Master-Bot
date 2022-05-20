@@ -1,0 +1,39 @@
+{
+  "areas": [
+    {
+      "title": "leninsky",
+      "name": "Ленинский",
+      "id_role": "976805446469951548"
+    },
+    {
+      "title": "kurchatovsky",
+      "name": "Курчатовский",
+      "id_role": "976805950180700170"
+    },
+    {
+      "title": "kalininsky",
+      "name": "Калининский",
+      "id_role": "976805350869200917"
+    },
+    {
+      "title": "metallurgical",
+      "name": "Металлургический",
+      "id_role": "971367898079715339"
+    },
+    {
+      "title": "sovietsky",
+      "name": "Советский",
+      "id_role": "976805501495046184"
+    },
+    {
+      "title": "traktorozavodsky",
+      "name": "Тракторозаводский",
+      "id_role": "976805276386734080"
+    },
+    {
+      "title": "central",
+      "name": "Центральный",
+      "id_role": "976805388345282600"
+    }
+  ]
+}
