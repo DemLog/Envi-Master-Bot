@@ -1,38 +1,24 @@
-const log4js = require('log4js');
-log4js.configure({
-    appenders: {
-        botLogs: {type: 'file', filename: './logs/bot.log'},
-        userLogs: {type: 'file', filename: './logs/user.log'},
-        console: {type: 'console'},
-    },
-    categories: {
-        user: {appenders: ['console', 'userLogs'], level: 'info'},
-        errorBot: {appenders: ['botLogs'], level: 'error'},
-        default: {appenders: ['console', 'botLogs'], level: 'info'}
-    }
-});
-
 const botConfig = require('./settings/bot.json');
 const {Client, Intents, Collection} = require('discord.js');
 botConfig.cfg.intents = new Intents(botConfig.cfg.intents);
 const client = new Client(botConfig.cfg);
 
-client.logger = log4js.getLogger();
-client.errLogger = log4js.getLogger('errorBot');
-client.userLogger = log4js.getLogger('user');
+const {logger, serverLogger, userLogger} = require('./tools/logger');
+client.servLogger = serverLogger;
+client.userLogger = userLogger;
 
 client.commands = new Collection();
-require('./loader')(client);
+require('./tools/loader')(client);
 
 client.on("ready", () => {
-    client.logger.info("[БОТ] Бот успешно был запущен!");
+    serverLogger.info("Бот был запущен!");
 });
 
 client
-    .on("disconnect", () => client.logger.info("[БОТ] Бот был отключен"))
-    .on("reconnecting", () => client.logger.info("[БОТ] Перезагрузка бота"))
-    .on("error", err => client.errLogger.error(err))
-    .on("warn", info => client.logger.info(info));
+    .on("disconnect", () => client.servLogger.info("Бот был отключен!"))
+    .on("reconnecting", () => client.servLogger.info("Бот перезагружается..."))
+    .on("error", err => client.servLogger.error(err))
+    .on("warn", warn => client.servLogger.warn(warn));
 
 client.on("messageCreate", async (msg) => {
     if (!msg.content.startsWith(botConfig.prefix) || msg.author.bot) return;
@@ -47,7 +33,7 @@ client.on("messageCreate", async (msg) => {
     let command = client.commands.get(cmd);
     if (command) command.run(client, msg, args);
 
-    client.userLogger.info(`[КОМАНДА] ${msg.author.username} использовал ${msg.content}`);
+    client.userLogger.info(`[КОМАНДА] ${msg.author.username} использовал(а) ${msg.content}`);
 });
 
 client.login(botConfig.token);
