@@ -1,6 +1,6 @@
 {
   "name": "envibot",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "К черту описание, приложение для сервера E:\\environment\\",
   "main": "bot.js",
   "scripts": {
