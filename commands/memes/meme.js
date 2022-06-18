@@ -14,9 +14,6 @@ async function meme(client, msg, args) {
             await msgBot.react(emoji);
         }
     }
-    const filter = (reaction, user) => {
-        return user.id === msg.author.id;
-    }
 
     await pikabu.getMemesPage(url)
         .then(data => {
@@ -34,7 +31,11 @@ async function meme(client, msg, args) {
         embeds: [pikabu.displayDiscordEmbed(memes[7 - 8 * page + currentMeme])]
     });
 
-    const collector = await msgBot.createReactionCollector({filter});
+    const filter = (reaction, user) => {
+        return user.id === msg.author.id;
+    }
+    const collector = await msgBot.createReactionCollector({filter, time: 300000});
+
     collector.on('collect', async (reaction) => {
         await reaction.users.remove(msg.author);
         const tempPage = page;
@@ -72,6 +73,10 @@ async function meme(client, msg, args) {
                 embeds: [pikabu.displayDiscordEmbed(memes[7 - 8 * page + currentMeme])]
             });
         }
+    });
+    collector.on("end", async () => {
+        await msg.delete();
+        await msgBot.delete();
     });
 }
 

@@ -67,9 +67,9 @@ async function help(client, msg, args) {
         }
         await Interaction.update({embeds: [displayEmbed(commandsUser, pageNumber)], components: [row]});
     });
-    collector.on("end", async Interaction => {
-        console.log(Interaction)
-        // Interaction.update({content: 'Когда-то здесь был ответ на команду :space_invader:'});
+    collector.on("end", async () => {
+        await msg.delete();
+        await msgBot.delete();
     });
 }
 
