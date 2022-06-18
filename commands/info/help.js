@@ -44,8 +44,7 @@ async function help(client, msg, args) {
     const row = new MessageActionRow().addComponents([buttonPrev, buttonNext]);
 
     const msgBot = await msg.reply({embeds: [displayEmbed(commandsUser, pageNumber)], components: [row]});
-    const collector = await msgBot.createMessageComponentCollector();
-
+    const collector = await msgBot.createMessageComponentCollector({time: 15000});
     collector.on("collect", async Interaction => {
         if (Interaction.customId === "helpPrev") {
             if (pageNumber > 1 && pageNumber !== 1) {
@@ -67,6 +66,10 @@ async function help(client, msg, args) {
             }
         }
         await Interaction.update({embeds: [displayEmbed(commandsUser, pageNumber)], components: [row]});
+    });
+    collector.on("end", async Interaction => {
+        console.log(Interaction)
+        // Interaction.update({content: 'Когда-то здесь был ответ на команду :space_invader:'});
     });
 }
 

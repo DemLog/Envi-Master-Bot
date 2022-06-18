@@ -4,6 +4,7 @@ botConfig.cfg.intents = new Intents(botConfig.cfg.intents);
 const client = new Client(botConfig.cfg);
 
 const {logger, serverLogger, userLogger} = require('./tools/logger');
+const CommandError = require("./tools/CommandError");
 client.servLogger = serverLogger;
 client.userLogger = userLogger;
 
@@ -20,6 +21,7 @@ client
     .on("error", err => client.servLogger.error(err))
     .on("warn", warn => client.servLogger.warn(warn));
 
+
 client.on("messageCreate", async (msg) => {
     if (!msg.content.startsWith(botConfig.prefix) || msg.author.bot) return;
 
@@ -30,8 +32,14 @@ client.on("messageCreate", async (msg) => {
     const cmd = args.shift().toLowerCase();
     if (cmd.length === 0) return;
 
+
     let command = client.commands.get(cmd);
-    if (command) command.run(client, msg, args);
+    if (command) command.run(client, msg, args).catch(err => {
+        if (err instanceof CommandError) {
+            client.servLogger.error(`[${err.name}] ${botConfig.prefix + err.command}: ${err.message}`);
+        }
+    })
+
 
     client.userLogger.info(`[КОМАНДА] ${msg.author.username} использовал(а) ${msg.content}`);
 });
