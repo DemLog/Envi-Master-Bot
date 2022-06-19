@@ -1,0 +1,13 @@
+{
+  "table": "liked_memes_pikabu",
+  "fields": [
+    {"name": "id", "type": "SERIAL", "constraint": "PRIMARY KEY"},
+    {"name": "title", "type": "VARCHAR(128)", "constraint": ""},
+    {"name": "rating", "type": "SMALLINT", "constraint": "DEFAULT 0"},
+    {"name": "time", "type": "TIMESTAMP", "constraint": ""},
+    {"name": "text", "type": "TEXT", "constraint": ""},
+    {"name": "url", "type": "VARCHAR(256)", "constraint": "UNIQUE"},
+    {"name": "image", "type": "VARCHAR(256)", "constraint": "UNIQUE"},
+    {"name": "tags", "type": "TEXT[]", "constraint": ""}
+  ]
+}

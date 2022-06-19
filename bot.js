@@ -22,6 +22,7 @@ client.on("ready", async () => {
             await client.dbLogger.error(err);
             process.exit(1);
         });
+    await require('./tools/dbCreater')(client);
     client.servLogger.info("Бот был запущен!");
 });
 

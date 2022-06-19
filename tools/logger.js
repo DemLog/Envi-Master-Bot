@@ -19,8 +19,8 @@ log4js.configure({
         default: {appenders: ['console'], level: 'trace'},
         server: {appenders: ['console', 'serverLog', 'serverJSON'], level: 'info'},
         debug: {appenders: ['console', 'debugLog'], level: 'debug'},
-        user: {appenders: ['userLog', 'userJSON'], level: 'info'},
-        db: {appenders: ['dbLog', 'dbJSON'], level: 'info'}
+        user: {appenders: ['console', 'userLog', 'userJSON'], level: 'info'},
+        db: {appenders: ['console', 'dbLog', 'dbJSON'], level: 'info'}
 
     }
 });
