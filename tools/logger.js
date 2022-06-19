@@ -12,12 +12,15 @@ log4js.configure({
         serverJSON: {type: 'file', filename: './logs/json/server.json', layout: {type: 'json', separator: ','}},
         debugLog: {type: 'file', filename: './debug.log'},
         userLog: {type: 'file', filename: './logs/user.log'},
-        userJSON: {type: 'file', filename: './logs/json/user.json', layout: {type: 'json', separator: ','}}
+        userJSON: {type: 'file', filename: './logs/json/user.json', layout: {type: 'json', separator: ','}},
+        dbLog: {type: 'file', filename: './logs/database.log'},
+        dbJSON: {type: 'file', filename: './logs/json/database.json', layout: {type: 'json', separator: ','}},
     }, categories: {
         default: {appenders: ['console'], level: 'trace'},
         server: {appenders: ['console', 'serverLog', 'serverJSON'], level: 'info'},
         debug: {appenders: ['console', 'debugLog'], level: 'debug'},
-        user: {appenders: ['userLog', 'userJSON'], level: 'info'}
+        user: {appenders: ['userLog', 'userJSON'], level: 'info'},
+        db: {appenders: ['dbLog', 'dbJSON'], level: 'info'}
 
     }
 });
@@ -26,6 +29,7 @@ const logger = log4js.getLogger();
 const serverLogger = log4js.getLogger('server');
 const userLogger = log4js.getLogger('user');
 const debugLogger = log4js.getLogger('debug');
+const dbLogger = log4js.getLogger('db');
 
-module.exports = {logger, serverLogger, userLogger, debugLogger};
+module.exports = {logger, serverLogger, userLogger, debugLogger, dbLogger};
 

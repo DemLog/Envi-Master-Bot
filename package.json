@@ -1,7 +1,7 @@
 {
   "name": "envibot",
   "version": "0.3.0",
-  "description": "К черту описание, приложение для сервера E:\\environment\\",
+  "description": "К черту описание, бот для сервера E:\\environment\\",
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,11 +10,9 @@
   "author": "Dmitry Loginov (DemLoveSky)",
   "license": "ISC",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.11",
     "discord.js": "^13.7.0",
-    "iconv-lite": "^0.6.3",
     "log4js": "^6.4.7",
     "osmosis": "^1.1.10",
-    "request": "^2.88.2"
+    "pg": "^8.7.3"
   }
 }

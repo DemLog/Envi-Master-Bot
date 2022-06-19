@@ -3,16 +3,26 @@ const {Client, Intents, Collection} = require('discord.js');
 botConfig.cfg.intents = new Intents(botConfig.cfg.intents);
 const client = new Client(botConfig.cfg);
 
-const {logger, serverLogger, userLogger} = require('./tools/logger');
+const pgClient = require('pg').Client;
+client.db = new pgClient(require('./settings/database.json'));
+
+const {logger, serverLogger, userLogger, dbLogger} = require('./tools/logger');
 const CommandError = require("./tools/CommandError");
 client.servLogger = serverLogger;
 client.userLogger = userLogger;
+client.dbLogger = dbLogger;
 
 client.commands = new Collection();
 require('./tools/loader')(client);
 
-client.on("ready", () => {
-    serverLogger.info("Бот был запущен!");
+client.on("ready", async () => {
+    await client.db.connect()
+        .then(() => client.dbLogger.info("Успешное подключение к базе!"))
+        .catch(async (err) => {
+            await client.dbLogger.error(err);
+            process.exit(1);
+        });
+    client.servLogger.info("Бот был запущен!");
 });
 
 client
