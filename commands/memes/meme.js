@@ -8,7 +8,7 @@ async function meme(client, msg, args) {
     let memes = [];
     let url = pikabu.createURLFind(args, page);
 
-    const msgBot = await msg.channel.send('🔄 Подождите, идет загрузка...');
+    let msgBot = await msg.channel.send('🔄 Подождите, идет загрузка...');
     const displayReaction = async () => {
         for (const emoji of emojiList) {
             await msgBot.react(emoji);
@@ -34,7 +34,7 @@ async function meme(client, msg, args) {
     const filter = (reaction, user) => {
         return user.id === msg.author.id;
     }
-    const collector = await msgBot.createReactionCollector({filter, time: 300000});
+    let collector = await msgBot.createReactionCollector({filter, time: 300000});
 
     collector.on('collect', async (reaction) => {
         await reaction.users.remove(msg.author);
@@ -61,6 +61,20 @@ async function meme(client, msg, args) {
                 }
                 break;
             case emojiList[2]:
+                const meme = Object.assign({}, memes[7 - 8 * page + currentMeme]);
+                meme.text = `{${meme.text.join()}}`;
+                meme.tags = `{${meme.tags.join()}}`;
+                meme.liked = msg.author.id;
+                const query = {
+                    text: 'INSERT INTO liked_memes_pikabu(title, rating, time, text, url, image, tags, liked) VALUES($1, $2, $3, $4, $5, $6, $7, $8) ON CONFLICT DO NOTHING;',
+                    values: Object.values(meme)
+                }
+                await client.db.query(query).catch(err => client.dbLogger.error(err));
+
+                await msg.channel.send({
+                    content: `Мем сохранил: <@!${msg.author.id}>`,
+                    embeds: [pikabu.displayDiscordEmbed(memes[7 - 8 * page + currentMeme])]
+                });
                 break;
         }
 

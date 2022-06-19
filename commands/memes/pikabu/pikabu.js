@@ -39,7 +39,10 @@ class Pikabu {
                     image: 'img.story-image__image@data-src',
                     tags: ['.story__tags > a']
                 })
-                .data(data => response.memes.push(data))
+                .data(data => {
+                    data.rating = data.rating ? parseInt(data.rating) : 0;
+                    response.memes.push(data);
+                })
                 .find('.stories-search__feed-panel')
                 .set({
                     countMemes: 'span'
