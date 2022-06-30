@@ -4,3 +4,4 @@ settings/bot.json
 settings/database.json
 logs
 *.log
+config.json
