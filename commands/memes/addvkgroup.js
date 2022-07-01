@@ -1,9 +1,8 @@
 const CommandError = require("../../tools/CommandError");
 const {MessageEmbed} = require("discord.js");
+const vkBot = require('./vk/VKBot');
 
 async function addVKGroup(client, msg, args) {
-    const vkBot = require('./vk/VKBot');
-
     let msgBot = await msg.reply('🔄 Подождите, идет загрузка...');
     let response;
     await vkBot.checkURLGroup(args[0])

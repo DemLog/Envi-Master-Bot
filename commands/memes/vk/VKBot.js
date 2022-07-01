@@ -1,5 +1,6 @@
 const VKAPI = "https://api.vk.com/method/";
 const request = require('request');
+const {MessageEmbed} = require("discord.js");
 
 class VKBot {
     constructor() {
@@ -47,7 +48,8 @@ class VKBot {
                 data.items.forEach((meme, idx) => {
                     if (!meme["marked_as_ads"]) {
                         const res = {};
-                        res["text"] = meme.text;
+                        res["text"] = meme.text.split('\n');
+                        res["date"] = new Date(meme.date * 1000);
                         res["likes"] = meme.likes["count"];
                         res["views"] = meme.views["count"];
                         res["photos"] = [];
@@ -57,6 +59,7 @@ class VKBot {
                                 res["photos"].push(sizes[sizes.length - 1].url);
                             }
                         });
+                        if (res["photos"].length === 0) return;
 
                         if (!meme["signer_id"]) {
                             res["author"] = {};
@@ -123,6 +126,23 @@ class VKBot {
                 });
             });
         });
+    }
+
+    displayDiscordEmbed(group, meme) {
+        console.log(meme.author)
+        return new MessageEmbed()
+            .setColor('#0091ff')
+            .setTitle(group.name)
+            .setDescription(meme.text.join('\n'))
+            .setTimestamp(meme.date)
+            .setImage(meme.photos[0]) // Временно
+            .setThumbnail(group.photo)
+            .setAuthor(Object.keys(meme.author).length === 0 ? null : {name: meme.author.name, iconURL: meme.author.photo})
+            .setFooter({
+                text: `${meme.likes} лайков | ${meme.views} просмотров`,
+                iconURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/VK_Compact_Logo_%282021-present%29.svg/2048px-VK_Compact_Logo_%282021-present%29.svg.png"
+            });
+
     }
 }
 
