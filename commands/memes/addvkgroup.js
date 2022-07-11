@@ -29,7 +29,6 @@ async function addVKGroup(client, msg, args) {
         const embed = new MessageEmbed()
             .setColor('#0091ff')
             .setTitle(response.name)
-            .setURL(args[0])
             .addField("\u200B", `Группа успешно добавлена!`)
             .setThumbnail(response.photo)
         await msgBot.edit({

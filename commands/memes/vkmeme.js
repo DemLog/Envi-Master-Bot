@@ -96,10 +96,9 @@ async function vkMeme(client, msg, args) {
         }
     });
     collector.on("end", async () => {
-        await msg.delete();
+        await msg.delete().catch();
         await msgBot.delete();
     });
-
 }
 
 module.exports = {

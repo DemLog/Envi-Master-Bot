@@ -68,7 +68,7 @@ async function help(client, msg, args) {
         await Interaction.update({embeds: [displayEmbed(commandsUser, pageNumber)], components: [row]});
     });
     collector.on("end", async () => {
-        await msg.delete();
+        await msg.delete().catch();
         await msgBot.delete();
     });
 }

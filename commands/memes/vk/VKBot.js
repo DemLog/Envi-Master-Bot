@@ -41,9 +41,7 @@ class VKBot {
                 })
 
                 response["group"] = {
-                    "id": data.groups[0]["id"],
-                    "name": data.groups[0]["name"],
-                    "photo": data.groups[0]["photo_200"]
+                    "id": data.groups[0]["id"], "name": data.groups[0]["name"], "photo": data.groups[0]["photo_200"]
                 };
                 data.items.forEach((meme, idx) => {
                     if (!meme["marked_as_ads"]) {
@@ -104,7 +102,7 @@ class VKBot {
 
     checkURLGroup(url) {
         return new Promise((resolve, reject) => {
-            const regexURl = /(^https?:\/\/)?[a-z0-9~_\-\.]+\.[a-z]{2,9}(\/|:|\?[!-~]*)?$/i;
+            const regexURl = /(^https?:\/{2})?(vk\.com)\/([a-z/._]+$)/g;
             if (!regexURl.test(url)) return reject("🚫 Ошибка! Неверно указанна ссылка");
             let domain = url.split('/');
             domain = domain[domain.length - 1];
@@ -117,7 +115,8 @@ class VKBot {
                 if (err) return reject("🚫 Ошибка! Неудачное соединение к VK API, повтори позже");
                 if (body.error) return reject(`🚫 Ошибка! ${body.error["error_msg"]}`);
                 const data = body.response;
-                if (data.length === 0) return reject("🚫 Ошибка! не удалось найти данную группу");
+                if (data.length === 0) return reject("🚫 Ошибка! Не удалось найти данную группу");
+                if (data[0]["is_closed"]) return reject("🚫 Ошибка! Данная группа закрыта");
                 return resolve({
                     "id": data[0]["id"],
                     "name": data[0]["name"],
@@ -129,7 +128,6 @@ class VKBot {
     }
 
     displayDiscordEmbed(group, meme) {
-        console.log(meme.author)
         return new MessageEmbed()
             .setColor('#0091ff')
             .setTitle(group.name)
@@ -137,12 +135,13 @@ class VKBot {
             .setTimestamp(meme.date)
             .setImage(meme.photos[0]) // Временно
             .setThumbnail(group.photo)
-            .setAuthor(Object.keys(meme.author).length === 0 ? null : {name: meme.author.name, iconURL: meme.author.photo})
+            .setAuthor(Object.keys(meme.author).length === 0 ? null : {
+                name: meme.author.name, iconURL: meme.author.photo
+            })
             .setFooter({
                 text: `${meme.likes} лайков | ${meme.views} просмотров`,
                 iconURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/VK_Compact_Logo_%282021-present%29.svg/2048px-VK_Compact_Logo_%282021-present%29.svg.png"
             });
-
     }
 }
 

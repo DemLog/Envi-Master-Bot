@@ -4,21 +4,27 @@ const {MessageEmbed} = require("discord.js");
 class Pikabu {
     URL = "https://185.26.99.7/tag/Мемы";
 
-    // getInfoPage(url) {
-    //     return new Promise((resolve, reject) => {
-    //         osmosis
-    //             .get(encodeURI(url))
-    //             .headers({
-    //                 "Host": "pikabu.ru",
-    //                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0"
-    //             })
-    //             .set({
-    //                 countMemes: '.stories-search__feed-panel > span', currentPage: '.pagination__page_current'
-    //             })
-    //             .data(resolve)
-    //             .error(()=>reject('🚫 Ошибка! Не возможно найти по данным тегам или недоступно соединение'))
-    //     });
-    // }
+    getInfoPage(url) {
+        let response = {countMemes: 0, currentPage: 1};
+        return new Promise((resolve, reject) => {
+            osmosis
+                .get(encodeURI(url))
+                .headers({
+                    "Host": "pikabu.ru",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0"
+                })
+                .set({
+                    countMemes: '.stories-search__feed-panel > span',
+                    currentPage: '.pagination__page_current'
+                })
+                .data(data => {
+                    response.currentPage = data.currentPage;
+                    response.countMemes = parseInt(data.countMemes.match(/\d+/)[0]);
+                })
+                .done(() => resolve(response))
+                .error(()=>reject('🚫 Ошибка! Не возможно найти по данным тегам или недоступно соединение'))
+        });
+    }
 
     getMemesPage(url) {
         let response = {countMemes: 0, memes: []};

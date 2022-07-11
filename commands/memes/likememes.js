@@ -17,7 +17,7 @@ async function getLikedName(guild, id) {
     let name = '';
     await guild.members.fetch(id)
         .then(data => name = data.user.username)
-        .catch(name = undefined)
+        .catch(err => name = undefined)
     return name;
 }
 
@@ -78,7 +78,7 @@ async function likeMemes(client, msg, args) {
         }
     });
     collector.on("end", async () => {
-        await msg.delete();
+        await msg.delete().catch();
         await msgBot.delete();
     });
 }
