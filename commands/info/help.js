@@ -10,7 +10,7 @@ function displayEmbed(commands, page) {
         .setDescription(`Команды модуля ${moduleCommand.toUpperCase()}`);
 
     for (const [key, value] of Object.entries(commands[moduleCommand])) {
-        helpEmbed.addField(botPrefix + key, value.description);
+        helpEmbed.addField(`${botPrefix}${key} ${value.args.join(' ')}`, value.description);
     }
     helpEmbed.setFooter({text: `Страница ${page} из ${Object.keys(commands).length}`});
     return helpEmbed;
