@@ -1,0 +1,9 @@
+{
+  "table": "vk_groups",
+  "fields": [
+    {"name": "id", "type": "INTEGER", "constraint": "PRIMARY KEY"},
+    {"name": "name", "type": "VARCHAR(256)", "constraint": ""},
+    {"name": "slug", "type": "VARCHAR(128)", "constraint": "UNIQUE"},
+    {"name": "photo", "type": "VARCHAR(256)", "constraint": ""}
+  ]
+}

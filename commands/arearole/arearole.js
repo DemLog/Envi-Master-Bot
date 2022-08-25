@@ -18,9 +18,7 @@ async function areaRole(client, msg, args) {
     };
 
     const msgBot = await msg.reply({
-        content: "И ради этого ты меня беспокоил? Ты просто хочешь выпендрится тем, чтобы все знали где ты живешь?"
-            + " Чел, успокойся, всем плевать! Ну раз ты настаиваешь,"
-            + " то выбери свой район в списке и быть может я тебя впишу в отдельную касту людей",
+        content: "И ради этого ты меня беспокоил? Ты просто хочешь выпендрится тем, чтобы все знали где ты живешь?" + " Чел, успокойся, всем плевать! Ну раз ты настаиваешь," + " то выбери свой район в списке и быть может я тебя впишу в отдельную касту людей",
         components: [{
             type: "ACTION_ROW", components: [selectMenu]
         }]
@@ -37,9 +35,13 @@ async function areaRole(client, msg, args) {
             const overlap = rolesUser.filter((role, id) => listArea.areas.find((area) => id == area.id_role)); // совпадения ролей
 
             if (overlap) {
-                overlap.map(role => member.roles.remove(role)) // удаление ролей у пользователя
+                overlap.map(role => member.roles.remove(role).catch(err => {
+                    client.userLogger.error(err)
+                })) // удаление ролей у пользователя
             }
-            member.roles.add(role).then().catch(); // переделаю позже
+            member.roles.add(role).catch(err => {
+                client.userLogger.error(err)
+            });
 
             Interaction.update({
                 content: `Это кринж, чел. Чтобы адекватные люди не контактировали с тобой, я дал тебе роль **${role.name}**`,
@@ -52,5 +54,9 @@ async function areaRole(client, msg, args) {
 }
 
 module.exports = {
-    name: "arearole", description: "Выбрать роль на сервере согласно своему району", run: areaRole
+    name: "arearole",
+    args: [],
+    description: "Выбрать роль на сервере согласно своему району",
+    permissions: 'ALLUSER',
+    run: areaRole
 };
