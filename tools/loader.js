@@ -5,13 +5,12 @@ module.exports = (client) => {
         const commands = readdirSync(`./commands/${dir}/`).filter((file) => file.endsWith(".js"));
 
         for (let file of commands) {
-            let pull = require(`./commands/${dir}/${file}`);
-
+            let pull = require(`../commands/${dir}/${file}`);
             if (pull.name) {
                 client.commands.set(pull.name, pull);
-                client.serverLogger.info(`[${dir.toUpperCase()}] Загружена команда ${pull.name}`);
-            } else return;
+                client.servLogger.info(`[${dir.toUpperCase()}] Загружена команда ${pull.name}`);
+            }
 
         }
-    })
+    });
 }
